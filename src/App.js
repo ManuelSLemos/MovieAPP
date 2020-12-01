@@ -1,9 +1,11 @@
 import React, { Fragment } from 'react';
 
+import Login from './containers/Login';
+
 const App = () => {
   return (
     <Fragment>
-      APP
+      <Login />
     </Fragment>
   );
 }
