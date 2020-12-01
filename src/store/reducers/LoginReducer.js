@@ -1,4 +1,4 @@
-import { TRY_LOGIN } from '../types/LoginTypes';
+import { TRY_LOGIN, ADD_USER } from '../types/LoginTypes';
 
 const initialState = { 
     users: [
@@ -11,29 +11,34 @@ const initialState = {
 
 const LoginReducer = ( state = initialState, action) => {
 
-    switch(action.type) {
+    if ( action.type === TRY_LOGIN ) {
+        let users = state.users.filter( user => user.id === action.payload.id);
+        let user = state.users.find( user => user.id === action.payload.id );
+        
+        if(user.try !== 0) {
+            user.try -= 1;
+        }
+        
+        if (user.try === 0) {
+            user.block = true
+            user.date_block = action.payload.date
+        }
 
-        case TRY_LOGIN:
-            let users = state.users.filter( user => user.id === action.payload.id);
-            let user = state.users.find( user => user.id === action.payload.id );
-            
-            if(user.try !== 0) {
-                user.try -= 1;
-            }
-            
-            if (user.try === 0) {
-                user.block = true
-                user.date_block = action.payload.date
-            }
+        users.push(user);
 
-            users.push(user);
+        return {
+            ...state,
+            users
+        }
+    }
 
-            return {
-                ...state,
-                users
-            }
+    if ( action.type === ADD_USER ) {
+        let users = state.users.push( action.payload.user );
 
-
+        return {
+            ...state,
+            users
+        }
     }
     
     return state;
