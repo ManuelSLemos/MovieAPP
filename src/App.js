@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-function App() {
+const App = () => {
   return (
     <Fragment>
       APP
